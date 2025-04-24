@@ -27,7 +27,7 @@ implementation 'org.eclipse.digitaltwin.fa3st:fa3st-common:1.0.0-SNAPSHOT'
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions are **greatly appreciated**.
-You can find our contribution guidelines [here](.github/CONTRIBUTING.md)
+You can find our contribution guidelines [here](CONTRIBUTING.md)
 
 ## License
 
