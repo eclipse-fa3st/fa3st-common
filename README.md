@@ -3,7 +3,26 @@
 ![FA³ST Common Logo Light](./docs/images/fa3st-common-positive.svg/#gh-light-mode-only "FA³ST Common Logo")
 ![FA³ST Common Logo Dark](./docs/images/fa3st-common-negative.svg/#gh-dark-mode-only "FA³ST Common Logo")
 
-This repository contains common artefacts used throughout the FA³ST ecosystem.
+This repository contains common artifacts used throughout the FA³ST ecosystem.
+This includes model classes, de-/serialization, and utility classes.
+
+## Usage
+
+### Maven
+
+```xml
+<dependency>
+	<groupId>org.eclipse.digitaltwin.fa3st</groupId>
+	<artifactId>fa3st-common</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+</dependency>
+```
+
+### Gradle
+
+```gradle
+implementation 'org.eclipse.digitaltwin.fa3st:fa3st-common:1.0.0-SNAPSHOT'
+```
 
 ## Contributing
 

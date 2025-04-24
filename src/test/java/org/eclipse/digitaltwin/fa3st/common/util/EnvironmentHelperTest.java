@@ -14,6 +14,7 @@
 package org.eclipse.digitaltwin.fa3st.common.util;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.digitaltwin.aas4j.v3.model.Environment;
 import org.eclipse.digitaltwin.aas4j.v3.model.Property;
 import org.eclipse.digitaltwin.aas4j.v3.model.Referable;
@@ -36,6 +37,7 @@ public class EnvironmentHelperTest {
 
     @Test
     public void testResolveWithAASFull() {
+        AtomicBoolean hasFailed = new AtomicBoolean(false);
         Environment environment = AASFull.createEnvironment();
         AssetAdministrationShellElementWalker.builder()
                 .visitor(new DefaultAssetAdministrationShellElementVisitor() {
@@ -45,12 +47,13 @@ public class EnvironmentHelperTest {
                             assertResolve(referable, environment);
                         }
                         catch (ResourceNotFoundException | AmbiguousElementException e) {
-                            Assert.fail();
+                            hasFailed.set(true);
                         }
                     }
                 })
                 .build()
                 .walk(environment);
+        Assert.assertFalse("at least one element could not be resolved", hasFailed.get());
     }
 
 

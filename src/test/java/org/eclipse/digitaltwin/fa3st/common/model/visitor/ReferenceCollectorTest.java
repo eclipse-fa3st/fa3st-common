@@ -105,19 +105,7 @@ public class ReferenceCollectorTest {
         expected.put(list1Ref, list1);
         expected.put(property3Ref, property3);
         expected.put(aas1Ref, aas1);
-        expected.put(ReferenceHelper.combine(aas1Ref, submodelRef), submodel);
-        expected.put(ReferenceHelper.combine(aas1Ref, property1Ref), property1);
-        expected.put(ReferenceHelper.combine(aas1Ref, collection1Ref), collection1);
-        expected.put(ReferenceHelper.combine(aas1Ref, property2Ref), property2);
-        expected.put(ReferenceHelper.combine(aas1Ref, list1Ref), list1);
-        expected.put(ReferenceHelper.combine(aas1Ref, property3Ref), property3);
         expected.put(aas2Ref, aas2);
-        expected.put(ReferenceHelper.combine(aas2Ref, submodelRef), submodel);
-        expected.put(ReferenceHelper.combine(aas2Ref, property1Ref), property1);
-        expected.put(ReferenceHelper.combine(aas2Ref, collection1Ref), collection1);
-        expected.put(ReferenceHelper.combine(aas2Ref, property2Ref), property2);
-        expected.put(ReferenceHelper.combine(aas2Ref, list1Ref), list1);
-        expected.put(ReferenceHelper.combine(aas2Ref, property3Ref), property3);
         Map<Reference, Referable> actual = ReferenceCollector.collect(environment);
         Assert.assertEquals(expected.size(), actual.size());
         // cannot compare using .equals on references as keyTypes do not match

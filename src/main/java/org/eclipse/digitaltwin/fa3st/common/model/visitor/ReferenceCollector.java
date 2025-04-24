@@ -14,17 +14,14 @@
 package org.eclipse.digitaltwin.fa3st.common.model.visitor;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import org.eclipse.digitaltwin.aas4j.v3.model.AnnotatedRelationshipElement;
 import org.eclipse.digitaltwin.aas4j.v3.model.AssetAdministrationShell;
 import org.eclipse.digitaltwin.aas4j.v3.model.AssetInformation;
 import org.eclipse.digitaltwin.aas4j.v3.model.Entity;
 import org.eclipse.digitaltwin.aas4j.v3.model.Environment;
 import org.eclipse.digitaltwin.aas4j.v3.model.Identifiable;
-import org.eclipse.digitaltwin.aas4j.v3.model.Key;
 import org.eclipse.digitaltwin.aas4j.v3.model.KeyTypes;
 import org.eclipse.digitaltwin.aas4j.v3.model.Operation;
 import org.eclipse.digitaltwin.aas4j.v3.model.Referable;
@@ -41,13 +38,11 @@ import org.eclipse.digitaltwin.fa3st.common.util.ReferenceHelper;
  */
 public class ReferenceCollector extends AssetAdministrationShellElementWalker {
 
-    private Map<Reference, List<Reference>> aasContext;
     private Reference parent;
     private Map<Reference, Referable> result;
     private int currentListIndex;
 
     private void init() {
-        aasContext = new HashMap<>();
         parent = null;
         result = new HashMap<>();
         currentListIndex = -1;
@@ -81,13 +76,6 @@ public class ReferenceCollector extends AssetAdministrationShellElementWalker {
         this.visitor = new DefaultAssetAdministrationShellElementVisitor() {
 
             @Override
-            public void visit(AssetAdministrationShell aas) {
-                aasContext.put(ReferenceBuilder.forAas(aas), aas.getSubmodels());
-                DefaultAssetAdministrationShellElementVisitor.super.visit(aas);
-            }
-
-
-            @Override
             public void visit(Referable referable) {
                 if (referable == null) {
                     return;
@@ -109,26 +97,11 @@ public class ReferenceCollector extends AssetAdministrationShellElementWalker {
                                 .element(id, referable.getClass())
                                 .build());
                 result.put(reference, referable);
-                Key root = ReferenceHelper.getRoot(reference);
-                if (Objects.nonNull(root) && root.getType() == KeyTypes.SUBMODEL) {
-                    result.putAll(aasContext.entrySet().stream()
-                            .filter(x -> x.getValue().stream().anyMatch(y -> ReferenceHelper.equals(y, ReferenceHelper.fromKeys(root))))
-                            .collect(Collectors.toMap(
-                                    x -> ReferenceHelper.combine(x.getKey(), reference),
-                                    x -> referable)));
-                }
                 if (isContainerElement(referable)) {
                     parent = reference;
                 }
             }
         };
-    }
-
-
-    @Override
-    public void visit(AnnotatedRelationshipElement element) {
-        visitBefore(element);
-        visitAfter(element);
     }
 
 
@@ -141,13 +114,6 @@ public class ReferenceCollector extends AssetAdministrationShellElementWalker {
 
     @Override
     public void visit(Operation element) {
-        visitBefore(element);
-        visitAfter(element);
-    }
-
-
-    @Override
-    public void visit(Entity element) {
         visitBefore(element);
         visitAfter(element);
     }
@@ -168,7 +134,9 @@ public class ReferenceCollector extends AssetAdministrationShellElementWalker {
                 || AssetAdministrationShell.class.isAssignableFrom(referable.getClass())
                 || Submodel.class.isAssignableFrom(referable.getClass())
                 || SubmodelElementCollection.class.isAssignableFrom(referable.getClass())
-                || SubmodelElementList.class.isAssignableFrom(referable.getClass());
+                || SubmodelElementList.class.isAssignableFrom(referable.getClass())
+                || Entity.class.isAssignableFrom(referable.getClass())
+                || AnnotatedRelationshipElement.class.isAssignableFrom(referable.getClass());
     }
 
 
