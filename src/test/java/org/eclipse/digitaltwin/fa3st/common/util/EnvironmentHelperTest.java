@@ -28,6 +28,7 @@ import org.eclipse.digitaltwin.fa3st.common.exception.ResourceNotFoundException;
 import org.eclipse.digitaltwin.fa3st.common.model.AASFull;
 import org.eclipse.digitaltwin.fa3st.common.model.IdShortPath;
 import org.eclipse.digitaltwin.fa3st.common.model.visitor.AssetAdministrationShellElementWalker;
+import org.eclipse.digitaltwin.fa3st.common.model.visitor.AssetAdministrationShellElementWalker.ElementFilter;
 import org.eclipse.digitaltwin.fa3st.common.model.visitor.DefaultAssetAdministrationShellElementVisitor;
 import org.junit.Assert;
 import org.junit.Test;
@@ -40,13 +41,14 @@ public class EnvironmentHelperTest {
         AtomicBoolean hasFailed = new AtomicBoolean(false);
         Environment environment = AASFull.createEnvironment();
         AssetAdministrationShellElementWalker.builder()
+                .filter(ElementFilter.REFERENCABLE)
                 .visitor(new DefaultAssetAdministrationShellElementVisitor() {
                     @Override
                     public void visit(Referable referable) {
                         try {
                             assertResolve(referable, environment);
                         }
-                        catch (ResourceNotFoundException | AmbiguousElementException e) {
+                        catch (Exception e) {
                             hasFailed.set(true);
                         }
                     }
