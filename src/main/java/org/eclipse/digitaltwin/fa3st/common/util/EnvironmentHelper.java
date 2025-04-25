@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import org.eclipse.digitaltwin.aas4j.v3.model.Environment;
@@ -118,7 +119,15 @@ public class EnvironmentHelper {
     public static Reference asReference(Referable referable, Environment environment) throws AmbiguousElementException {
         Ensure.requireNonNull(referable, "referable must be non-null");
         Ensure.requireNonNull(environment, "environment must be non-null");
-        List<Reference> result = ReferenceCollector.collect(environment).entrySet().stream()
+        Map<Reference, Referable> referables = ReferenceCollector.collect(environment);
+        Optional<Reference> directMatch = referables.entrySet().stream()
+                .filter(x -> referable == x.getValue())
+                .map(Map.Entry::getKey)
+                .findAny();
+        if (directMatch.isPresent()) {
+            return directMatch.get();
+        }
+        List<Reference> result = referables.entrySet().stream()
                 .filter(x -> Objects.equals(referable, x.getValue()))
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());

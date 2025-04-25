@@ -42,7 +42,7 @@ import org.eclipse.digitaltwin.fa3st.common.certificate.SelfSignedCertificateGen
  */
 public class KeyStoreHelper {
 
-    public static final String DEFAULT_ALIAS = "faaast";
+    public static final String DEFAULT_ALIAS = "fa3st";
 
     /**
      * Hide the implicit public constructor.
