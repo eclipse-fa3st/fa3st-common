@@ -121,6 +121,25 @@
             <artifactId>aas4j-model</artifactId>
         </dependency>
     </dependencies>
+    <repositories>
+        <repository>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>bintray</id>
+            <url>https://jcenter.bintray.com</url>
+        </repository>
+        <repository>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <id>central</id>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+        </repository>
+    </repositories>
     <pluginRepositories>
         <pluginRepository>
             <snapshots>
