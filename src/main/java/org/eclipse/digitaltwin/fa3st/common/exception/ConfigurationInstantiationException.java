@@ -14,8 +14,7 @@
 package org.eclipse.digitaltwin.fa3st.common.exception;
 
 /**
- * Indicates underlying {@link org.eclipse.digitaltwin.fa3st.common.config.Configurable} class of configuration could
- * not be instantiated.
+ * Indicates underlying class of configuration could not be instantiated.
  */
 public class ConfigurationInstantiationException extends ConfigurationException {
 

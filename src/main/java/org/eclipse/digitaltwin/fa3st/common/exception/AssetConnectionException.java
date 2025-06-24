@@ -14,7 +14,7 @@
 package org.eclipse.digitaltwin.fa3st.common.exception;
 
 /**
- * This class represents exceptions related to {@link AssetConnection}.
+ * This class represents exceptions related to asset connections.
  */
 public class AssetConnectionException extends Exception {
 

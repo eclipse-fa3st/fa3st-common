@@ -14,7 +14,7 @@
 package org.eclipse.digitaltwin.fa3st.common.exception;
 
 /**
- * This class represents exceptions related to {@link org.eclipse.digitaltwin.fa3st.common.endpoint.Endpoint}.
+ * This class represents exceptions related to endpoints.
  */
 public class EndpointException extends Exception {
 

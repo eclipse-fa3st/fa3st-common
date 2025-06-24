@@ -14,7 +14,7 @@
 package org.eclipse.digitaltwin.fa3st.common.exception;
 
 /**
- * This class represents exceptions related to {@link org.eclipse.digitaltwin.fa3st.common.messagebus.MessageBus}.
+ * This class represents exceptions related to message bus.
  */
 public class MessageBusException extends Exception {
 
