@@ -75,10 +75,12 @@ public class AssetAdministrationShellElementWalker implements DefaultAssetAdmini
     protected AssetAdministrationShellElementVisitor after;
     protected AssetAdministrationShellElementVisitor before;
     protected WalkingMode mode;
+    protected ElementFilter filter;
     protected AssetAdministrationShellElementVisitor visitor;
 
     protected AssetAdministrationShellElementWalker() {
         mode = WalkingMode.DEFAULT;
+        filter = ElementFilter.DEFAULT;
     }
 
 
@@ -339,7 +341,7 @@ public class AssetAdministrationShellElementWalker implements DefaultAssetAdmini
     @Override
     public void visit(OperationVariable operationVariable) {
         visitBefore(operationVariable);
-        if (operationVariable != null) {
+        if (operationVariable != null && filter == ElementFilter.ALL) {
             visit(operationVariable.getValue());
         }
         visitAfter(operationVariable);
@@ -529,9 +531,11 @@ public class AssetAdministrationShellElementWalker implements DefaultAssetAdmini
             operation.getQualifiers().forEach(this::visit);
             operation.getEmbeddedDataSpecifications().forEach(this::visit);
             operation.getExtensions().forEach(this::visit);
-            operation.getInputVariables().forEach(x -> visit(x.getValue()));
-            operation.getInoutputVariables().forEach(x -> visit(x.getValue()));
-            operation.getOutputVariables().forEach(x -> visit(x.getValue()));
+            if (filter == ElementFilter.ALL) {
+                operation.getInputVariables().forEach(x -> visit(x.getValue()));
+                operation.getInoutputVariables().forEach(x -> visit(x.getValue()));
+                operation.getOutputVariables().forEach(x -> visit(x.getValue()));
+            }
         }
         visitAfter(operation);
     }
@@ -674,6 +678,23 @@ public class AssetAdministrationShellElementWalker implements DefaultAssetAdmini
         public static final WalkingMode DEFAULT = VISIT_BEFORE_DESCENT;
     }
 
+    /**
+     * Enum of supported element filters.
+     */
+    public enum ElementFilter {
+        /**
+         * All submodel elements are returned.
+         */
+        ALL,
+        /**
+         * Only elements that can be referenced, i.e., can be target of a Reference are returned. This exclude e.g. elements
+         * inside operation arguments.
+         */
+        REFERENCABLE;
+
+        public static final ElementFilter DEFAULT = ALL;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -700,6 +721,12 @@ public class AssetAdministrationShellElementWalker implements DefaultAssetAdmini
 
         public B mode(WalkingMode value) {
             getBuildingInstance().mode = value;
+            return getSelf();
+        }
+
+
+        public B filter(ElementFilter value) {
+            getBuildingInstance().filter = value;
             return getSelf();
         }
     }

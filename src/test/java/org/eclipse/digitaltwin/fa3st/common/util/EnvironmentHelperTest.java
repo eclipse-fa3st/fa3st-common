@@ -14,6 +14,7 @@
 package org.eclipse.digitaltwin.fa3st.common.util;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.digitaltwin.aas4j.v3.model.Environment;
 import org.eclipse.digitaltwin.aas4j.v3.model.Property;
 import org.eclipse.digitaltwin.aas4j.v3.model.Referable;
@@ -27,6 +28,7 @@ import org.eclipse.digitaltwin.fa3st.common.exception.ResourceNotFoundException;
 import org.eclipse.digitaltwin.fa3st.common.model.AASFull;
 import org.eclipse.digitaltwin.fa3st.common.model.IdShortPath;
 import org.eclipse.digitaltwin.fa3st.common.model.visitor.AssetAdministrationShellElementWalker;
+import org.eclipse.digitaltwin.fa3st.common.model.visitor.AssetAdministrationShellElementWalker.ElementFilter;
 import org.eclipse.digitaltwin.fa3st.common.model.visitor.DefaultAssetAdministrationShellElementVisitor;
 import org.junit.Assert;
 import org.junit.Test;
@@ -36,21 +38,24 @@ public class EnvironmentHelperTest {
 
     @Test
     public void testResolveWithAASFull() {
+        AtomicBoolean hasFailed = new AtomicBoolean(false);
         Environment environment = AASFull.createEnvironment();
         AssetAdministrationShellElementWalker.builder()
+                .filter(ElementFilter.REFERENCABLE)
                 .visitor(new DefaultAssetAdministrationShellElementVisitor() {
                     @Override
                     public void visit(Referable referable) {
                         try {
                             assertResolve(referable, environment);
                         }
-                        catch (ResourceNotFoundException | AmbiguousElementException e) {
-                            Assert.fail();
+                        catch (Exception e) {
+                            hasFailed.set(true);
                         }
                     }
                 })
                 .build()
                 .walk(environment);
+        Assert.assertFalse("at least one element could not be resolved", hasFailed.get());
     }
 
 

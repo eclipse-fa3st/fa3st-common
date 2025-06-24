@@ -67,7 +67,7 @@ import org.eclipse.digitaltwin.aas4j.v3.model.impl.DefaultValueReferencePair;
 
 public class AASFull {
 
-    private static final String FAAAST_SUBMODEL_ID = "https://example.org/FAAAST/submodel/1";
+    private static final String FA3ST_SUBMODEL_ID = "https://example.org/FA3ST/submodel/1";
     public static final AssetAdministrationShell AAS_1 = createAAS1();
     public static final AssetAdministrationShell AAS_2 = createAAS2();
     public static final AssetAdministrationShell AAS_3 = createAAS3();
@@ -1685,8 +1685,8 @@ public class AASFull {
 
     public static Submodel createSubmodel8() {
         return new DefaultSubmodel.Builder()
-                .idShort("FAAASTSpecificSubmodel")
-                .id(FAAAST_SUBMODEL_ID)
+                .idShort("FA3STSpecificSubmodel")
+                .id(FA3ST_SUBMODEL_ID)
                 .kind(ModellingKind.INSTANCE)
                 .submodelElements(new DefaultOperation.Builder()
                         .idShort("Square")
@@ -1845,7 +1845,7 @@ public class AASFull {
 
     public static Submodel getFa3stSubmodel(Environment environment) {
         return environment.getSubmodels().stream()
-                .filter(x -> Objects.equals(x.getId(), FAAAST_SUBMODEL_ID))
+                .filter(x -> Objects.equals(x.getId(), FA3ST_SUBMODEL_ID))
                 .findFirst()
                 .orElseThrow();
     }
