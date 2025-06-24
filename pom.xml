@@ -268,6 +268,21 @@
                             <autoPublish>true</autoPublish>
                             <waitUntil>published</waitUntil>
                             <centralSnapshotsUrl>https://central.sonatype.com/repository/maven-snapshots/</centralSnapshotsUrl>
+                            <artifacts>
+                                <artifact>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>${project.artifactId}</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>jar</type>
+                                </artifact>
+                                <artifact>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>${project.artifactId}</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>test-jar</type>
+                                    <classifier>tests</classifier>
+                                </artifact>
+                            </artifacts>
                         </configuration>
                     </plugin>
                 </plugins>
